@@ -14,7 +14,7 @@ class BrewBlackBeanCoffee : public BrewCoffee
 public:
     void brew() override
     {
-        cout<< "煮黑咖啡豆"<<endl;
+        cout << "brew black bean coffee" << endl;
     }
 };
 
@@ -23,38 +23,42 @@ class BrewPowderCoffee : public BrewCoffee
 public:
     void brew() override
     {
-        cout<< "煮咖啡粉"<<endl;
+        cout << "brew powder coffee" << endl;
     }
 };
 
-class Decorate : public BrewCoffee{
-    protected:
-        unique_ptr<BrewCoffee> _brew;
-    public:
-        Decorate(unique_ptr<BrewCoffee> brew) : _brew(std::move(brew)){};
-        void brew() override{
-            if (_brew)
-            {
-                _brew->brew();
-            }
+class Decorate : public BrewCoffee
+{
+protected:
+    unique_ptr<BrewCoffee> _brew;
+
+public:
+    Decorate(unique_ptr<BrewCoffee> brew) : _brew(std::move(brew)){};
+    void brew() override
+    {
+        if (_brew)
+        {
+            _brew->brew();
         }
+    }
 };
 
-class MilkDecorator : public Decorate {
+class MilkDecorator : public Decorate
+{
 public:
     MilkDecorator(std::unique_ptr<BrewCoffee> coffee) : Decorate(std::move(coffee)) {}
-    void brew() override {
+    void brew() override
+    {
         Decorate::brew();
         std::cout << "Adding Milk" << std::endl;
     }
 };
 
-
-
 int main()
 {
-    std::unique_ptr<BrewCoffee> coffee = std::make_unique<BrewBlackBeanCoffee>();
-    std::make_unique<MilkDecorator>(std::move(coffee));
+    std::unique_ptr<BrewCoffee> coffee;
+    coffee = std::make_unique<BrewBlackBeanCoffee>();
+    coffee = std::make_unique<MilkDecorator>(std::move(coffee));
     coffee->brew();
     return 0;
 }
