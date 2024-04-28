@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace std;
 
+// 为了一个工厂生产一组东西
 class Sofa
 {
 public:

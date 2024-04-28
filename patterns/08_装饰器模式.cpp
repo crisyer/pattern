@@ -3,62 +3,57 @@
 #include <vector>
 #include <memory>
 using namespace std;
-class BrewCoffee
+class coffee
 {
 public:
     virtual void brew() = 0;
 };
 
-class BrewBlackBeanCoffee : public BrewCoffee
+class blackCofee : public coffee
 {
 public:
     void brew() override
     {
-        cout << "brew black bean coffee" << endl;
+        cout << "brew black coffee" << endl;
     }
 };
 
-class BrewPowderCoffee : public BrewCoffee
+class lattee : public coffee
 {
 public:
     void brew() override
     {
-        cout << "brew powder coffee" << endl;
+        cout << "brew lattee coffee" << endl;
     }
 };
 
-class Decorate : public BrewCoffee
+class Decorate : public coffee
 {
-protected:
-    unique_ptr<BrewCoffee> _brew;
-
+private:
+    std::unique_ptr<coffee> _coffee;
 public:
-    Decorate(unique_ptr<BrewCoffee> brew) : _brew(std::move(brew)){};
+    Decorate(std::unique_ptr<coffee> coffee) : _coffee(std::move(coffee)){};
     void brew() override
     {
-        if (_brew)
-        {
-            _brew->brew();
-        }
+        _coffee->brew();
     }
 };
-
-class MilkDecorator : public Decorate
+class milkDecorate : public coffee
 {
+private:
+    std::unique_ptr<coffee> _coffee;
 public:
-    MilkDecorator(std::unique_ptr<BrewCoffee> coffee) : Decorate(std::move(coffee)) {}
+    milkDecorate(std::unique_ptr<coffee> coffee) : _coffee(std::move(coffee)){};
     void brew() override
     {
-        Decorate::brew();
-        std::cout << "Adding Milk" << std::endl;
+        _coffee->brew();
+        cout << "brew lattee coffee" << endl;
     }
 };
-
-int main()
-{
-    std::unique_ptr<BrewCoffee> coffee;
-    coffee = std::make_unique<BrewBlackBeanCoffee>();
-    coffee = std::make_unique<MilkDecorator>(std::move(coffee));
+int main(){
+    std::unique_ptr<coffee> coffee;
+    coffee = std::make_unique<blackCofee>();
+    coffee = std::make_unique<milkDecorate>(std::move(coffee));
     coffee->brew();
     return 0;
 }

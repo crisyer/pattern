@@ -51,6 +51,12 @@
         "semaphore": "cpp",
         "stop_token": "cpp",
         "thread": "cpp",
-        "motions": "c"
-    }
+        "motions": "c",
+        "list": "cpp",
+        "bitset": "cpp",
+        "cstring": "cpp",
+        "regex": "cpp",
+        "sstream": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }
